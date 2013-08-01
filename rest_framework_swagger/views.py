@@ -59,6 +59,10 @@ class SwaggerResourcesView(APIDocView):
         })
 
     def get_resources(self):
+        api_prefixes = SWAGGER_SETTINGS.get('api_prefixes')
+        if api_prefixes:
+            return [endpoint.strip("/") for endpoint in api_prefixes]
+
         urlparser = UrlParser()
         apis = urlparser.get_apis(exclude_namespaces=SWAGGER_SETTINGS.get('exclude_namespaces'))
         return urlparser.get_top_level_apis(apis)
@@ -78,4 +82,5 @@ class SwaggerApiView(APIDocView):
 
     def get_api_for_resource(self, filter_path):
         urlparser = UrlParser()
-        return urlparser.get_apis(filter_path=filter_path)
+        return urlparser.get_apis(filter_path=filter_path, api_prefixes=SWAGGER_SETTINGS.get('api_prefixes'))
+

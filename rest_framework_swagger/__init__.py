@@ -2,6 +2,7 @@ VERSION = '0.1.5'
 
 DEFAULT_SWAGGER_SETTINGS = {
     'exclude_namespaces': [],
+    'api_prefixes': [],
     'api_version': '',
     'api_key': '',
     'enabled_methods': ['get', 'post', 'put', 'patch', 'delete'],

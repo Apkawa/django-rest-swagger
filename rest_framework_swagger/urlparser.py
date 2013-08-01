@@ -10,7 +10,7 @@ from apidocview import APIDocView
 
 class UrlParser(object):
 
-    def get_apis(self, patterns=None, filter_path=None, exclude_namespaces=[]):
+    def get_apis(self, patterns=None, filter_path=None, exclude_namespaces=[], api_prefixes=None):
         """
         Returns all the DRF APIViews found in the project URLs
 
@@ -22,7 +22,7 @@ class UrlParser(object):
             patterns = urls.urlpatterns
 
         if filter_path is not None:
-            return self.get_filtered_apis(patterns, filter_path)
+            return self.get_filtered_apis(patterns, filter_path, api_prefixes=api_prefixes)
 
         patterns = self.__flatten_patterns_tree__(
             patterns,
@@ -32,11 +32,14 @@ class UrlParser(object):
 
         return patterns
 
-    def get_filtered_apis(self, patterns, filter_path):
+    def get_filtered_apis(self, patterns, filter_path, api_prefixes=None):
         filtered_list = []
 
         all_apis = self.get_apis(patterns, exclude_namespaces=[])
-        top_level_apis = self.get_top_level_apis(all_apis)
+        if api_prefixes:
+            top_level_apis = set(api_prefixes)
+        else:
+            top_level_apis = self.get_top_level_apis(all_apis)
         top_level_apis.discard(filter_path)
 
         for top in list(top_level_apis):
@@ -123,8 +126,7 @@ class UrlParser(object):
                 if pattern.namespace in exclude_namespaces:
                     continue
 
-                prefix = pattern.regex.pattern
-                pattern_list.extend(self.__flatten_patterns_tree__(pattern.url_patterns, prefix, filter_path=filter_path))
+                pattern_list.extend(self.__flatten_patterns_tree__(pattern.url_patterns, prefix + pattern.regex.pattern, filter_path=filter_path))
 
         return pattern_list
 

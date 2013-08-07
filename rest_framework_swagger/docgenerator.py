@@ -100,7 +100,7 @@ class DocumentationGenerator(object):
         if the method does not exist
         """
         try:
-            return eval("callback.%s.__doc__" % (str(method).lower()))
+            return get_view_description(eval("callback.%s.__doc__" % (str(method).lower())))
         except AttributeError:
             return None
 
@@ -224,7 +224,7 @@ class DocumentationGenerator(object):
         """
         Gets the parameters from the URL
         """
-        url_params = re.findall('/{([^}]*)}', path)
+        url_params = re.findall('{([^}]*)}', path)
         params = []
 
         for param in url_params:

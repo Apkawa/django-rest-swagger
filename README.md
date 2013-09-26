@@ -51,8 +51,9 @@ Further configuration can optionally be made from your project's `settings.py`.
 ```python
 SWAGGER_SETTINGS = {
     "exclude_namespaces": [], # List URL namespaces to ignore
-    "api_version": '0.1', # Specify your API's version
-    "enabled_methods": [ # Specify which methods to enable in Swagger UI
+    "api_version": '0.1',  # Specify your API's version
+    "api_path": "/",  # Specify the path to your API not a root level
+    "enabled_methods": [  # Specify which methods to enable in Swagger UI
         'get',
         'post',
         'put',
@@ -73,6 +74,7 @@ This project is built on the [Django REST Framework Docs](https://github.com/mar
 * Serializers & fields in use by a certain method
 * Field default values, minimum, maximum, read-only and required attributes
 * URL parameters (ie. /product/{id})
+* Field `help_text` property is used to create the description from the serializer or model.
 * Query parameters (user-defined) - Custom parameters. It is possible to customize a parameter list for your
     API. To do so, include a key-value pair in the docstring of your API class
     delimited by two hyphens ('--'). Example: 'start_time -- The first reading':
@@ -108,6 +110,11 @@ Many thanks to Tom Christie & all the contributors who have developed [Django RE
 ## Contributors
 * Marc Gibbons (@marcgibbons)
 * Geraldo Andrade (@quein)
+* Vítek Pliska (@whit)
+* Falk Schuetzenmeister (@postfalk)
+* Lukas Hetzenecker (@lukas-hetzenecker)
+* David Wolever (@wolever)
+
 
 ### Django REST Framework Docs contributors:
 
@@ -117,6 +124,18 @@ Many thanks to Tom Christie & all the contributors who have developed [Django RE
 * Marlon Bailey (@avinash240)
 
 ## Release Notes:
+### v0.1.8 (Sept 16, 2013)
+* Fixed broken imports - Now supports DRF 2.3.8
+* Added description on the model field
+
+### v0.1.7 (Sept 4, 2013)
+* URL flattening fixes
+* API root prefix fix
+
+### v0.1.6 (August 3, 2013)
+* Improvments and bug fixes with relative imports in Python 3
+* throbber.gif image is being pointed to local copy
+
 ### v0.1.5 (July 30, 2013)
 * Added permission settings for Swagger docs. Default is now allow any, which will override REST Framework settings
 * Fixed throbber.gif URL in the swagger-ui.min.js to point to Wordnik's resource

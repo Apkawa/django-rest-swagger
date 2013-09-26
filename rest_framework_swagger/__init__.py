@@ -1,9 +1,10 @@
-VERSION = '0.1.5'
+VERSION = '0.1.8'
 
 DEFAULT_SWAGGER_SETTINGS = {
     'exclude_namespaces': [],
     'api_prefixes': [],
     'api_version': '',
+    'api_path': '/',
     'api_key': '',
     'enabled_methods': ['get', 'post', 'put', 'patch', 'delete'],
     'is_authenticated': False,

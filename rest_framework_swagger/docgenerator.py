@@ -99,7 +99,7 @@ class DocumentationGenerator(object):
         if the method does not exist
         """
         try:
-            return get_view_description(eval("callback.%s.__doc__" % (str(method).lower())))
+            return get_view_description(eval("callback.%s" % (str(method).lower())))
         except AttributeError:
             return None
 
@@ -111,7 +111,7 @@ class DocumentationGenerator(object):
         """
         docs = self.__eval_method_docstring_(callback, method)
 
-        if docs is None:
+        if not docs:
             docs = self.__get_description__(callback)
         docs = trim_docstring(docs).split('\n')[0]
 
@@ -130,13 +130,15 @@ class DocumentationGenerator(object):
         docstring = ""
 
         if method is not None:
+            docs = []
             class_docs = self.__get_notes__(callback)
             method_docs = self.__eval_method_docstring_(callback, method)
 
             if class_docs is not None:
-                docstring += class_docs
+                docs.append(class_docs)
             if method_docs is not None:
-                docstring += method_docs
+                docs.append(method_docs)
+            docstring += "\n".join(docs)
         else:
             docstring = trim_docstring(get_view_description(callback))
 
